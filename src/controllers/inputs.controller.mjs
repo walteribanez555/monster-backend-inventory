@@ -6,17 +6,17 @@ import {
 } from "../models/inputs.model.mjs";
 
 export async function getInputs({ id }) {
-  return getInput({ id, schema: "redcard" });
+  return getInput({ id, schema: "monster" });
 }
 
 export async function postInputs({ data }) {
-  return postInput({ data, schema: "redcard" });
+  return postInput({ data, schema: "monster" });
 }
 
 export async function putInputs({ id, data }) {
-  return putInput({ id, data, schema: "redcard" });
+  return putInput({ id, data, schema: "monster" });
 }
 
 export async function deleteInputs({ id }) {
-  return deleteInput({ id, schema: "redcard" });
+  return deleteInput({ id, schema: "monster" });
 }

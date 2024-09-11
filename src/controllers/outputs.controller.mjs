@@ -3,21 +3,21 @@ import { deleteOutput, getOutput, postOutput, putOutput } from "../models/output
 
 
 export async function getOutputs({ id }) {
-    return getOutput({id, schema : 'redcard'}); 
+    return getOutput({id, schema : 'monster'}); 
 
 }
 
 export async function postOutputs({ data }) {
-    return postOutput({data, schema : 'redcard'});
+    return postOutput({data, schema : 'monster'});
 
 }
 
 export async function putOutputs({ id, data}){
-    return putOutput({ id, data , schema : 'redcard'});
+    return putOutput({ id, data , schema : 'monster'});
 
 }
 
 export async function deleteOutputs({ id }){
-    return deleteOutput({id , schema : 'redcard'})
+    return deleteOutput({id , schema : 'monster'})
     
 }

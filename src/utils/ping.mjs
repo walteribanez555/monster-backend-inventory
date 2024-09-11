@@ -16,7 +16,7 @@ const routes = [
 ];
 
 export function ping () {
-    const database = [ 'mongo', 'mysql', 'postgres' ];
+    const database = [  'mysql'];
     const output = {
         'Host' : 'https://jxow6vi09g.execute-api.us-east-1.amazonaws.com/',
         'Environment' : 'dev',

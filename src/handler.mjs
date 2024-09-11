@@ -3,7 +3,6 @@ import { ping } from "./utils/ping.mjs";
 import { buildResponse, parseJsonToObject } from './utils/helpers.mjs';
 import { deleteInputs, getInputs, postInputs, putInputs } from "./controllers/inputs.controller.mjs";
 import { deleteOutputs, getOutputs, postOutputs, putOutputs } from "./controllers/outputs.controller.mjs";
-import { getProduct } from "./models/products.model.mjs";
 import { deleteProducts, getProducts, postProducts, putProducts } from "./controllers/products.controller.mjs";
 import { deleteProviders, getProviders, postProviders, putProviders } from "./controllers/providers.controller.mjs";
 import { deleteWarehouses, getWarehouses, postWarehouses, putWarehouses } from "./controllers/warehouses.controller.mjs";

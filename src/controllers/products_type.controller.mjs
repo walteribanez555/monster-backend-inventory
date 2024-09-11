@@ -3,17 +3,17 @@ import { deleteProductType, getProductType, postProductType, putProductType } fr
 
 
 export async function getProductTypes({id}){
-    return getProductType({id , schema : 'redcard'});
+    return getProductType({id , schema : 'monster'});
 }
 
 export async function postProductTypes({data}) {
-    return postProductType({data , schema : 'redcard'});
+    return postProductType({data , schema : 'monster'});
 }
 
 export async function deleteProductTypes({ id }) {
-    return deleteProductType({id , schema : 'redcard'});
+    return deleteProductType({id , schema : 'monster'});
 }
 
 export async function putProducTypes({id, data}) { 
-    return putProductType({ id , data , schema: 'redcard'});
+    return putProductType({ id , data , schema: 'monster'});
 }
