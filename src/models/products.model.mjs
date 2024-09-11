@@ -10,6 +10,7 @@ const model = {
   price: "string",
   discount: "number",
   date_created: "string",
+  product_type_id: "number",
 };
 
 export async function getProduct({ id, schema }) {

@@ -84,7 +84,7 @@ export async function deleteProductType({ id, schema}) {
       return buildResponse(400, {message : 'Missing the record id to delete'}, 'delete');
 
 
-    await data.delete(id , keyField);
+    await database.delete(id , keyField);
     return buildResponse(200, { message : 'Record deleted'}, 'delete');
   }catch ( err ) { 
      colorLog( `Delete ProductType error :  ${JSON.stringify(err)}`, 'red' , 'reset');
