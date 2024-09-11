@@ -9,6 +9,7 @@ const model = {
   warehouse_id: "number",
   price: "string",
   discount: "number",
+  quantity : "number",
   date_created: "string",
   product_type_id: "number",
 };
