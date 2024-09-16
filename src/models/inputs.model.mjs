@@ -37,7 +37,9 @@ export async function postInput({data , schema}) {
     const newRegister = validateData( data , model);
 
 
-    const sql = `select * from products where product_type_id = ${data.product_id}`;
+
+    //Check if the product exists in the products table and warehouse_id
+    const sql = `select * from products where product_type_id = ${data.product_id} and warehouse_id = ${data.warehouse_id}`;
     const product = await executeMysql(sql,schema);
 
     // product_id : "number",
