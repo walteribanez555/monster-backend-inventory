@@ -40,10 +40,20 @@ export async function postInput({data , schema}) {
     const sql = `select * from products where product_type_id = ${data.product_id}`;
     const product = await executeMysql(sql,schema);
 
+    // product_id : "number",
+    // warehouse_id: "number",
+    // price: "string",
+    // discount: "number",
+    // quantity : "number",
+    // date_created: "string",
+    // product_type_id: "number",
+
+    const actualDate = new Date();
 
     if(product.length === 0){
-      //Create the product if it doesn't exist
-      const sqlInsertProduct = `insert into products (warehouse_id, price, discount, quantity, date_created, product_type_id) values (1, 0, 0, ${data.quantity}, ${data.date_created}, ${data.product_id})`;
+      //Create the product if it doesn't exist and the product_id is autoincremented set the product id as product_type_id
+      const sqlInsertProduct = `insert into products (product_id, warehouse_id, price, discount, quantity, date_created, product_type_id) values (null, 1, 0, 0, ${data.quantity}, ${actualDate.getTime()}, ${data.product_id})`;
+
       await executeMysql(sqlInsertProduct,schema);
       
       
