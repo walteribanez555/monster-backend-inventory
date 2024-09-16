@@ -33,24 +33,19 @@ export async function getInput({ id , schema}) {
 export async function postInput({data , schema}) {
   try { 
     const database = new DatabaseOperations(tableName, schema);
-    const newRegister = validateData( data , model);
+    const newRegister = validateData(data, model);
 
-
-
-    //Check if the product exists in the products table and warehouse_id
+    // Check if the product exists in the products table and warehouse_id
     const sql = `select * from products where product_type_id = ${data.product_id} and warehouse_id = ${data.warehouse_id}`;
-    const product = await executeMysql(sql,schema);
+    const product = await executeMysql(sql, schema);
 
-    //get the actual date with hour and minutes format string to save on db
+    // Get the actual date with hour and minutes format string to save on db
     const actualDate = new Date().toISOString();
-
-   
-
 
     if (product.length === 0) {
       // Create the product if it doesn't exist and the product_id is autoincremented set the product id as product_type_id, get the product_id and set to new Register 
-      const sqlInsertProduct = `insert into products (product_id, warehouse_id, price, discount, quantity, date_created, product_type_id) values (null, ${data.warehouse_id}, 0, 0, ${data.quantity}, ${actualDate}, ${data.product_id})`;
-    
+      const sqlInsertProduct = `insert into products (product_id, warehouse_id, price, discount, quantity, date_created, product_type_id) values (null, ${data.warehouse_id}, 0, 0, ${data.quantity}, '${actualDate}', ${data.product_id})`;
+
       const response = await executeMysql(sqlInsertProduct, schema);
       newRegister.product_id = response.insertId;
     } else {
@@ -58,7 +53,7 @@ export async function postInput({data , schema}) {
       const sqlUpdate = `update products set quantity = ${product[0].quantity + data.quantity} where product_id = ${product[0].product_id}`;
       await executeMysql(sqlUpdate, schema);
     }
-    
+
     // Insert the input with the quantity
     newRegister.date_created = actualDate;
 
