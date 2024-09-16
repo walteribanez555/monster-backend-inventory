@@ -9,7 +9,6 @@ const model = {
   product_id: "number",
   provider_id: "number",
   quantity: "number",
-  date_created: "number",
   detail: "string",
 };
 
@@ -43,10 +42,10 @@ export async function postInput({data , schema}) {
     const product = await executeMysql(sql,schema);
 
     //get the actual date with hour and minutes format string to save on db
-
     const actualDate = new Date();
-    actualDate.setHours(actualDate.getHours() - 5);
-    const actualDateString = actualDate.toISOString().split('T')[0];
+    const actualDateString = `${actualDate.getFullYear()}-${actualDate.getMonth() + 1}-${actualDate.getDate()} ${actualDate.getHours()}:${actualDate.getMinutes()}:${actualDate.getSeconds()}`;
+
+   
 
 
     if (product.length === 0) {
