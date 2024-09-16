@@ -38,19 +38,19 @@ export async function postInput({data , schema}) {
 
 
     const sql = `select * from products where product_type_id = ${data.product_id}`;
-    const product = await executeMysql(sql);
+    const product = await executeMysql(sql,schema);
 
 
     if(product.length === 0){
       //Create the product if it doesn't exist
       const sqlInsertProduct = `insert into products (warehouse_id, price, discount, quantity, date_created, product_type_id) values (1, 0, 0, ${data.quantity}, ${data.date_created}, ${data.product_id})`;
-      await executeMysql(sqlInsertProduct);
+      await executeMysql(sqlInsertProduct,schema);
       
       
     }else { 
       //Update product with the quantity on input
       const sqlUpdate = `update products set quantity = ${product[0].quantity + data.quantity} where product_id = ${data.product_id}`;
-      await executeMysql(sqlUpdate);
+      await executeMysql(sqlUpdate, schema);
 
     }
 
