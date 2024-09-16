@@ -1,4 +1,4 @@
-import { DatabaseOperations } from "../utils/database.mjs";
+import { DatabaseOperations, executeMysql } from "../utils/database.mjs";
 import { buildResponse, validateData, colorLog } from "../utils/helpers.mjs";
 
 const tableName = "inputs";
@@ -35,11 +35,32 @@ export async function postInput({data , schema}) {
   try { 
     const database = new DatabaseOperations(tableName, schema);
     const newRegister = validateData( data , model);
-    if ( Object.keys(newRegister) == 0)
-      return buildResponse(400, { message : 'Missing required fields or not valid'}, 'post');
+    // if ( Object.keys(newRegister) == 0)
+    //   return buildResponse(400, { message : 'Missing required fields or not valid'}, 'post');
     
-    const response = await database.create( newRegister, keyField);
+    // const response = await database.create( newRegister, keyField) ;
+    // return buildResponse(200, response, 'post', keyField, data);
+
+
+    const sql = `select * from products where product_id = ${data.product_id}`;
+    const product = await executeMysql(sql);
+
+    //Update product with the quantity on input
+    const newQuantity = product[0].quantity + data.quantity;
+
+
+    const sqlInsert = `update products set quantity = ${newQuantity} where product_id = ${data.product_id}`;
+    await executeMysql(sqlInsert);
+
+
+
+    //Insert the input with the quantity
+    const response = await database.create(newRegister, keyField);
+
     return buildResponse(200, response, 'post', keyField, data);
+
+
+
   }catch( error) { 
     colorLog(` INPUTS SERVICES ERROR : ${JSON.stringify(error)}`, `red`, 'reset');
   }

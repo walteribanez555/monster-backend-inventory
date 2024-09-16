@@ -36,7 +36,7 @@ export async function postOutput({ data, schema }) {
     if (Object.keys(newRegister).length === 0)
       return buildResponse(
         400,
-        { message: "Miising required fields or not valid" },
+        { message: "Missing required fields or not valid" },
         "post"
       );
     const response = await database.create(newRegister, keyField);
