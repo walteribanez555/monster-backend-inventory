@@ -35,18 +35,10 @@ export async function postInput({data , schema}) {
   try { 
     const database = new DatabaseOperations(tableName, schema);
     const newRegister = validateData( data , model);
-    // if ( Object.keys(newRegister) == 0)
-    //   return buildResponse(400, { message : 'Missing required fields or not valid'}, 'post');
-    
-    // const response = await database.create( newRegister, keyField) ;
-    // return buildResponse(200, response, 'post', keyField, data);
-
 
 
     const sql = `select * from products where product_type_id = ${data.product_id}`;
     const product = await executeMysql(sql);
-
-
 
 
     if(product.length === 0){
@@ -61,9 +53,6 @@ export async function postInput({data , schema}) {
       await executeMysql(sqlUpdate);
 
     }
-
-
-
 
     //Insert the input with the quantity
     const response = await database.create(newRegister, keyField);
