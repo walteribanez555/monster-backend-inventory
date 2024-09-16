@@ -62,7 +62,7 @@ export async function postInput({data , schema}) {
       
     }else { 
       //Update product with the quantity on input
-      const sqlUpdate = `update products set quantity = ${product[0].quantity + data.quantity} where product_id = ${data.product_id}`;
+      const sqlUpdate = `update products set quantity = ${product[0].quantity + data.quantity} where product_id = ${product[0].product_id}`;
       await executeMysql(sqlUpdate, schema);
     }
 
