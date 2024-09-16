@@ -1,4 +1,4 @@
-import { DatabaseOperations } from "../utils/database.mjs";
+import { DatabaseOperations, executeMysql } from "../utils/database.mjs";
 import { buildResponse, validateData, colorLog } from "../utils/helpers.mjs";
 
 const tableName = "outputs";
@@ -54,7 +54,6 @@ export async function postOutput({ data, schema }) {
     const actualDate = new Date().toISOString();
     newRegister.date_created = actualDate;
 
-    console.log("Llega aqui");
 
 
     const response = await database.create(newRegister, keyField);
