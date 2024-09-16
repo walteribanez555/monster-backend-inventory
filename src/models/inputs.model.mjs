@@ -62,8 +62,6 @@ export async function postInput({data , schema}) {
 
     }
 
-    //Update product with the quantity on input
-    await executeMysql(sqlInsert);
 
 
 
