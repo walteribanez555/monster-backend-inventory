@@ -8,7 +8,6 @@ const keyField = "output_id";
 const model = {
   product_id: "number",
   quantity: "number",
-  date_created: "number",
   detail: "string",
 };
 
@@ -33,14 +32,32 @@ export async function postOutput({ data, schema }) {
   try {
     const database = new DatabaseOperations(tableName, schema);
     const newRegister = validateData(data, model);
-    if (Object.keys(newRegister).length === 0)
-      return buildResponse(
-        400,
-        { message: "Missing required fields or not valid" },
-        "post"
-      );
+
+
+    const sql = `select * from products where product_type_id = ${data.product_id} and warehouse_id = ${data.warehouse_id}`;
+    const product = await executeMysql(sql, schema);
+
+    if (product.length === 0) {
+      return buildResponse(400, { message: "Product not found" }, "post");
+    }
+
+
+    if (product[0].quantity < data.quantity) {
+      return buildResponse(400, { message: "Not enough quantity in stock" }, "post");
+    }
+
+    const sqlUpdate = `update products set quantity = ${product[0].quantity - data.quantity} where product_id = ${product[0].product_id}`;
+    await executeMysql(sqlUpdate, schema);
+
+
+
+    const actualDate = new Date().toISOString();
+    newRegister.date_created = actualDate;
+
+
     const response = await database.create(newRegister, keyField);
-    return buildResponse(200, response, "post", keyField, data);
+    return buildResponse(200, response, "post");
+   
   } catch (err) {
     colorLog(`POST SERVICES ERROR : ${JSON.stringify(err)}`, "red", "reset");
     return buildResponse(500, err, "post");
