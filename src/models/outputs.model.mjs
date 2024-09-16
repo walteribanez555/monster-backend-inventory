@@ -50,6 +50,8 @@ export async function postOutput({ data, schema }) {
 
     // Set the product_id in the new register
     newRegister.product_id = product[0].product_id;
+    data.product_id = product[0].product_id;
+    data.product_type_id  = product[0].product_type_id;
 
     // Get the actual date with hour and minutes format string to save on db
     const actualDate = new Date().toISOString();
