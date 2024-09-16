@@ -58,7 +58,7 @@ export async function postOutput({ data, schema }) {
     // Insert the input with the quantity
     const response = await database.create(newRegister, keyField);
 
-    return buildResponse(200, response, "post");
+    return buildResponse(200, response, "post", keyField, data);
    
   } catch (err) {
     colorLog(`POST SERVICES ERROR : ${JSON.stringify(err)}`, "red", "reset");
