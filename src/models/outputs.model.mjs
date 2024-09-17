@@ -44,20 +44,16 @@ export async function postOutput({ data, schema }) {
       return buildResponse(400, { message: "Not enough quantity in stock" }, "post");
     }
 
-    // Update the product quantity
     const sqlUpdate = `update products set quantity = ${product[0].quantity - data.quantity} where product_id = ${product[0].product_id}`;
     await executeMysql(sqlUpdate, schema);
 
-    // Set the product_id in the new register
     newRegister.product_id = product[0].product_id;
     data.product_id = product[0].product_id;
     data.product_type_id  = product[0].product_type_id;
 
-    // Get the actual date with hour and minutes format string to save on db
     const actualDate = new Date().toISOString();
     newRegister.date_created = actualDate;
 
-    // Insert the input with the quantity
     const response = await database.create(newRegister, keyField);
 
     return buildResponse(200, response, "post", keyField, data);

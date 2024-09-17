@@ -5,6 +5,8 @@ const tableName = "inputs";
 const idField = "input_id";
 const keyField = "input_id";
 
+const queryParams = ["id", "init", "end", "product_id", "warehouse_id"];
+
 const model = {
   product_id: "number",
   provider_id: "number",
@@ -12,14 +14,26 @@ const model = {
   detail: "string",
 };
 
-export async function getInput({ id , schema}) {
+export async function getInput({ id, init, end, product_id , warehouse_id , schema}) {
   try{
-    const database = new DatabaseOperations(tableName, schema);
-    const data = { 
-      where : {
-        [keyField] : id
-      }
-    }
+    const database = new DatabaseOperations("InputProductDetails", schema);
+    // const data = { 
+    //   where : {
+    //     [keyField] : id
+    //   }
+    // }
+
+    //Handle the query params and the keyfield to see items has key field similar to data before
+    const data = {
+      where: {
+        [keyField]: id,
+        [queryParams[1]]: init,
+        [queryParams[2]]: end,
+        [queryParams[3]]: product_id,
+        [queryParams[4]]: warehouse_id,
+      },
+    };
+    
     const response = await database.read(data);
     return buildResponse(200, response, 'get');
   }catch( err ){
