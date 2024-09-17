@@ -68,6 +68,7 @@ export async function postInput({data , schema}) {
 
     data.date_created = actualDate;
     data.provider_id = newRegister.provider_id;
+    data.product_id = newRegister.product_id;
 
     return buildResponse(200, response, 'post', keyField, data);
 
