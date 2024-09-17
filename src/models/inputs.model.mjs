@@ -17,13 +17,6 @@ const model = {
 export async function getInput({ id, init, end, product_id , warehouse_id , schema}) {
   try{
     const database = new DatabaseOperations("InputProductDetails", schema);
-    // const data = { 
-    //   where : {
-    //     [keyField] : id
-    //   }
-    // }
-
-    //Handle the query params and the keyfield to see items has key field similar to data before
     const data = {
       where: {
         [keyField]: id,
@@ -73,7 +66,7 @@ export async function postInput({data , schema}) {
 
     const response = await database.create(newRegister, keyField);
 
-    response.date_created = actualDate;
+    data.date_created = actualDate;
 
     return buildResponse(200, response, 'post', keyField, data);
 
