@@ -51,10 +51,7 @@ export async function postInput({data , schema}) {
     // Get the actual date with hour and minutes format string to save on db
     const actualDate = new Date().toISOString();
 
-    const gmtMinus4Offset = 4 * 60 * 60 * 1000; // 4 hours in milliseconds
-
-// Subtract the GMT-4 offset from the UTC time
-    const gmtMinus4Date = new Date(utcTime - gmtMinus4Offset);
+    
 
     if (product.length === 0) {
       // Create the product if it doesn't exist and the product_id is autoincremented set the product id as product_type_id, get the product_id and set to new Register 
