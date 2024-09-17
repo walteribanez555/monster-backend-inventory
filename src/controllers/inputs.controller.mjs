@@ -5,7 +5,7 @@ import {
   putInput,
 } from "../models/inputs.model.mjs";
 
-export async function getInputs({ id, init, end, product_id, warehouse_id }) {
+export async function getInputs({ id, init, end, product_id, warehouse_id, limit, offset }) {
   return getInput({ id, init, end, product_id,warehouse_id,limit, offset , schema: "monster" });
 }
 
