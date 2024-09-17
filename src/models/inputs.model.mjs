@@ -8,7 +8,7 @@ const keyField = "input_id";
 const queryParams = ["id", "init", "end", "product_id", "warehouse_id"];
 
 const model = {
-  // product_id: "number",
+  product_id: "number",
   provider_id: "number",
   quantity: "number",
   detail: "string",
@@ -67,6 +67,7 @@ export async function postInput({data , schema}) {
     const response = await database.create(newRegister, keyField);
 
     data.date_created = actualDate;
+    data.product_id = newRegister.product_id;
 
     return buildResponse(200, response, 'post', keyField, data);
 
