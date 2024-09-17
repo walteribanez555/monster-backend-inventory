@@ -159,10 +159,6 @@ const QueryBuilder = {
 
         if(init && end){
             conditions += `date_created between '${init}' and '${end}'`;
-        }else if(init){
-            conditions += `date_created >= '${init}'`;
-        }else if(end){
-            conditions += `date_created <= '${end}'`;
         }
 
 
