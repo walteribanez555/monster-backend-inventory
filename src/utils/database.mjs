@@ -167,8 +167,8 @@ const QueryBuilder = {
 
 
         let query = conditions ? `select ${ columns ? columns.join() : '*' } from ${ tableName } where ${ conditions }` : `select ${ columns ? columns.join() : '*' } from ${ tableName }`    ;
-        query = limit ? `${ query } limit ${ limit }` : query;
-        query = offset ? `${ query } offset ${ offset }` : query;
+        query = limit ? `${ query } LIMIT ${ limit }` : query;
+        query = offset ? `${ query } OFFSET ${ offset }` : query;
 
 
         return query;
