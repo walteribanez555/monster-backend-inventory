@@ -140,7 +140,7 @@ const QueryBuilder = {
 
         return update;
     },
-    filter : ( { columns = false, where = false, init= false, end= false }, tableName ) => {
+    filter : ( { columns = false, where = false, init= false, end= false, limit, offset }, tableName ) => {
 
 // 2024-09-17T15:50:19.757Z
 
@@ -161,6 +161,16 @@ const QueryBuilder = {
             //if exists previous conditions add 'and' to the new condition
             conditions += conditions ? ' and ' : '';
             conditions += `date_created between '${init}' and '${end}'`;
+        }
+
+        if(limit){
+            conditions += conditions ? ' and ' : '';
+            conditions += `limit ${limit}`;
+        }
+
+        if(offset){
+            conditions += conditions ? ' and ' : '';
+            conditions += `offset ${offset}`;
         }
 
 

@@ -14,7 +14,7 @@ const model = {
   detail: "string",
 };
 
-export async function getInput({ id, init, end, product_id , warehouse_id , schema}) {
+export async function getInput({ id, init, end, product_id , warehouse_id, limit, offset , schema}) {
   try{
     const database = new DatabaseOperations("InputProductDetails", schema);
     const data = {
@@ -25,6 +25,8 @@ export async function getInput({ id, init, end, product_id , warehouse_id , sche
       },
       init,
       end,
+      limit,
+      offset,
     };
     
     const response = await database.read(data);
