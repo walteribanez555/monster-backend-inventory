@@ -73,6 +73,8 @@ export async function postInput({data , schema}) {
 
     const response = await database.create(newRegister, keyField);
 
+    response.date_created = actualDate;
+
     return buildResponse(200, response, 'post', keyField, data);
 
 
