@@ -49,19 +49,16 @@ export async function postInput({data , schema}) {
     const product = await executeMysql(sql, schema);
 
     // Get the actual date with hour and minutes format string to save on db
-    const actualDate = new Date().getTime();
-    // const actualDate = new Date().toISOString();
+    const actualDate = new Date().toISOString();
 
     const gmtMinus4Offset = 4 * 60 * 60 * 1000; // 4 hours in milliseconds
 
 // Subtract the GMT-4 offset from the UTC time
-    const gmtMinus4Date = new Date(actualDate - gmtMinus4Offset);
-    
-    const gmtDateTime = gmtMinus4Date.toISOString();  
+    const gmtMinus4Date = new Date(utcTime - gmtMinus4Offset);
 
     if (product.length === 0) {
       // Create the product if it doesn't exist and the product_id is autoincremented set the product id as product_type_id, get the product_id and set to new Register 
-      const sqlInsertProduct = `insert into products (product_id, warehouse_id, price, discount, quantity, date_created, product_type_id) values (null, ${data.warehouse_id}, 0, 0, ${data.quantity}, '${gmtDateTime}', ${data.product_id})`;
+      const sqlInsertProduct = `insert into products (product_id, warehouse_id, price, discount, quantity, date_created, product_type_id) values (null, ${data.warehouse_id}, 0, 0, ${data.quantity}, '${actualDate}', ${data.product_id})`;
 
       const response = await executeMysql(sqlInsertProduct, schema);
       newRegister.product_id = response.insertId;
@@ -72,11 +69,11 @@ export async function postInput({data , schema}) {
     }
 
     // Insert the input with the quantity
-    newRegister.date_created = gmtDateTime;
+    newRegister.date_created = actualDate;
 
     const response = await database.create(newRegister, keyField);
 
-    data.date_created = gmtDateTime;
+    data.date_created = actualDate;
     data.provider_id = newRegister.provider_id;
     data.product_id = newRegister.product_id;
 
