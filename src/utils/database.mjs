@@ -158,6 +158,8 @@ const QueryBuilder = {
         //make the filter if init exist and if end exist by separate and if both exist together
 
         if(init && end){
+            //if exists previous conditions add 'and' to the new condition
+            conditions += conditions ? ' and ' : '';
             conditions += `date_created between '${init}' and '${end}'`;
         }
 
