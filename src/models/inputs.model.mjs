@@ -20,11 +20,11 @@ export async function getInput({ id, init, end, product_id , warehouse_id , sche
     const data = {
       where: {
         [keyField]: id,
-        [queryParams[1]]: init,
-        [queryParams[2]]: end,
         [queryParams[3]]: product_id,
         [queryParams[4]]: warehouse_id,
       },
+      init,
+      end,
     };
     
     const response = await database.read(data);

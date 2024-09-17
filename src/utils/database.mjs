@@ -140,7 +140,11 @@ const QueryBuilder = {
 
         return update;
     },
-    filter : ( { columns = false, where = false }, tableName ) => {
+    filter : ( { columns = false, where = false, init= false, end= false }, tableName ) => {
+
+// 2024-09-17T15:50:19.757Z
+
+
         let conditions = '';  
         if ( where ) {
             Object.keys( where ).forEach( key => { if ( where[ key ] === null || where[ key ] === undefined ) delete where[ key ]; } );
@@ -150,11 +154,24 @@ const QueryBuilder = {
                 conditions += `${ key } = ${ conditionValues[ index ]}${ index === conditionKeys.length - 1 ? '' : ' and ' }`;
             });
         }  
+
+        //make the filter if init exist and if end exist by separate and if both exist together
+
+        if(init && end){
+            conditions += `date_created between '${init}' and '${end}'`;
+        }else if(init){
+            conditions += `date_created >= '${init}'`;
+        }else if(end){
+            conditions += `date_created <= '${end}'`;
+        }
+
+
         const query = conditions ? `select ${ columns ? columns.join() : '*' } from ${ tableName } where ${ conditions }` : `select ${ columns ? columns.join() : '*' } from ${ tableName }`;
 
         return query;
     },
 };
+
 
 // const pool = process.env.DB === 'postgres' ? process.env.DB_USER && process.env.DB_HOST && process.env.DB_DATABASE && process.env.DB_PASS && process.env.DB_PORT ? new Pool( {
 //     user : process.env.DB_USER,
