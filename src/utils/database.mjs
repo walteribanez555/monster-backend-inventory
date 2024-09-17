@@ -140,7 +140,7 @@ const QueryBuilder = {
 
         return update;
     },
-    filter : ( { columns = false, where = false, init= false, end= false, limit, offset }, tableName ) => {
+    filter : ( { columns = false, where = false, init= false, end= false, limit = false, offset = false }, tableName ) => {
 
 // 2024-09-17T15:50:19.757Z
 
@@ -163,18 +163,13 @@ const QueryBuilder = {
             conditions += `date_created between '${init}' and '${end}'`;
         }
 
-        if(limit){
-            conditions += conditions ? ' and ' : '';
-            conditions += `limit ${limit}`;
-        }
-
-        if(offset){
-            conditions += conditions ? ' and ' : '';
-            conditions += `offset ${offset}`;
-        }
+       
 
 
-        const query = conditions ? `select ${ columns ? columns.join() : '*' } from ${ tableName } where ${ conditions }` : `select ${ columns ? columns.join() : '*' } from ${ tableName }`;
+        let query = conditions ? `select ${ columns ? columns.join() : '*' } from ${ tableName } where ${ conditions }` : `select ${ columns ? columns.join() : '*' } from ${ tableName }`    ;
+        query = limit ? `${ query } limit ${ limit }` : query;
+        query = offset ? `${ query } offset ${ offset }` : query;
+
 
         return query;
     },
