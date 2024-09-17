@@ -76,7 +76,7 @@ export async function postInput({data , schema}) {
 
     const response = await database.create(newRegister, keyField);
 
-    data.date_created = gmtDateTimee;
+    data.date_created = gmtDateTime;
     data.provider_id = newRegister.provider_id;
     data.product_id = newRegister.product_id;
 
