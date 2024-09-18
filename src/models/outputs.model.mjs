@@ -5,19 +5,27 @@ const tableName = "outputs";
 const idField = "output_id";
 const keyField = "output_id";
 
+const queryParams = ["id", "init", "end", "product_id", "warehouse_id"];
+
 const model = {
   product_id: "number",
   quantity: "number",
   detail: "string",
 };
 
-export async function getOutput({ id, schema }) {
+export async function getOutput({ id, schema, init, end, product_id, warehouse_id, limit, offset }) {
   try {
-    const database = new DatabaseOperations(tableName, schema);
+    const database = new DatabaseOperations("OutputProductDetails", schema);
     const data = {
       where: {
         [keyField]: id,
+        [queryParams[3]]: product_id,
+        [queryParams[4]]: warehouse_id,
       },
+      init,
+      end,
+      limit,
+      offset,
     };
 
     const response = await database.read(data);

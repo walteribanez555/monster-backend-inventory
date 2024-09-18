@@ -2,8 +2,8 @@ import { deleteOutput, getOutput, postOutput, putOutput } from "../models/output
 
 
 
-export async function getOutputs({ id }) {
-    return getOutput({id, schema : 'monster'}); 
+export async function getOutputs({ id,init, end,product_id,warehouse_id, limit, offset }) {
+    return getOutput({id,init, end, product_id, warehouse_id, limit , offset, schema : 'monster'}); 
 
 }
 
