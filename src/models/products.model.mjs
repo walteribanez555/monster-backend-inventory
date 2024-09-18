@@ -22,6 +22,7 @@ export async function getProduct({ id,init, end, warehouse_id, limit, offset, sc
     const data = {
       where: {
         [keyField]: id,
+        [queryParams[3]]: warehouse_id,
       },
       init,
       end,
