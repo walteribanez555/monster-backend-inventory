@@ -5,7 +5,7 @@ const tableName = "products";
 const idField = "product_id";
 const keyField = "product_id";
 
-const queryParams = ["id","init", "end", "warehouse_id","limit", "offset"];
+const queryParams = ["id","init", "end", "warehouse_id"];
 
 const model = {
   warehouse_id: "number",
