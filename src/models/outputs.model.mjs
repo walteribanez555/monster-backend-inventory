@@ -5,14 +5,14 @@ const tableName = "outputs";
 const idField = "output_id";
 const keyField = "output_id";
 
-const queryParams = ["id", "init", "end", "product_id", "warehouse_id"];
+const queryParams = ["id", "init", "end", "product_id", "warehouse_id", "product_type_id"];
 
 const model = {
   quantity: "number",
   detail: "string",
 };
 
-export async function getOutput({ id, schema, init, end, product_id, warehouse_id, limit, offset }) {
+export async function getOutput({ id, schema, init, end, product_id, warehouse_id, limit, offset, product_type_id }) {
   try {
     const database = new DatabaseOperations("OutputProductDetails", schema);
     const data = {
@@ -20,6 +20,7 @@ export async function getOutput({ id, schema, init, end, product_id, warehouse_i
         [keyField]: id,
         [queryParams[3]]: product_id,
         [queryParams[4]]: warehouse_id,
+        [queryParams[5]]: product_type_id
       },
       init,
       end,

@@ -5,7 +5,7 @@ const tableName = "inputs";
 const idField = "input_id";
 const keyField = "input_id";
 
-const queryParams = ["id", "init", "end", "product_id", "warehouse_id"];
+const queryParams = ["id", "init", "end", "product_id", "warehouse_id", "product_type_id"];
 
 const model = {
   // product_id: "number",
@@ -14,7 +14,7 @@ const model = {
   detail: "string",
 };
 
-export async function getInput({ id, init, end, product_id , warehouse_id, limit, offset , schema}) {
+export async function getInput({ id, init, end, product_id , warehouse_id, limit, offset , product_type_id , schema}) {
   try{
     const database = new DatabaseOperations("InputProductDetails", schema);
     const data = {
@@ -22,6 +22,7 @@ export async function getInput({ id, init, end, product_id , warehouse_id, limit
         [keyField]: id,
         [queryParams[3]]: product_id,
         [queryParams[4]]: warehouse_id,
+        [queryParams[5]]: product_type_id,
       },
       init,
       end,
