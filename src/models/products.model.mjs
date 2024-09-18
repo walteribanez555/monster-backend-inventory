@@ -5,6 +5,8 @@ const tableName = "products";
 const idField = "product_id";
 const keyField = "product_id";
 
+const queryParams = ["id","init", "end", "warehouse_id","limit", "offset"];
+
 const model = {
   warehouse_id: "number",
   price: "string",
@@ -14,13 +16,17 @@ const model = {
   product_type_id: "number",
 };
 
-export async function getProduct({ id, schema }) {
+export async function getProduct({ id,init, end, warehouse_id, limit, offset, schema }) {
   try {
     const database = new DatabaseOperations(tableName, schema);
     const data = {
       where: {
         [keyField]: id,
       },
+      init,
+      end,
+      limit,
+      offset
     };
 
     const response = await database.read(data);

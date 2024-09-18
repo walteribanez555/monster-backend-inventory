@@ -5,8 +5,8 @@ import {
   putProduct,
 } from "../models/products.model.mjs";
 
-export async function getProducts({ id }) {
-  return getProduct({ id, schema: "monster" });
+export async function getProducts({ id,init, end, warehouse_id, limit, offset }) {
+  return getProduct({ id, init, end, warehouse_id, limit, offset, schema: "monster" });
 }
 
 export async function postProducts({ data }) {
