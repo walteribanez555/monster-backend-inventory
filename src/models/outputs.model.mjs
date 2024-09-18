@@ -61,6 +61,9 @@ export async function postOutput({ data, schema }) {
     const actualDate = new Date().toISOString();
     newRegister.date_created = actualDate;
 
+
+    data.date_created = actualDate;
+
     const response = await database.create(newRegister, keyField);
 
     return buildResponse(200, response, "post", keyField, data);
