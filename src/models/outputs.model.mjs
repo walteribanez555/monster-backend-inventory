@@ -8,7 +8,6 @@ const keyField = "output_id";
 const queryParams = ["id", "init", "end", "product_id", "warehouse_id"];
 
 const model = {
-  product_id: "number",
   quantity: "number",
   detail: "string",
 };
@@ -41,7 +40,7 @@ export async function postOutput({ data, schema }) {
     const database = new DatabaseOperations(tableName, schema);
     const newRegister = validateData(data, model);
 
-    const sql = `select * from products where product_type_id = ${data.product_id} and warehouse_id = ${data.warehouse_id}`;
+    const sql = `select * from products where product_type_id = ${data.product_type_id} and warehouse_id = ${data.warehouse_id}`;
     const product = await executeMysql(sql, schema);
 
     if (product.length === 0) {
