@@ -61,7 +61,7 @@ export async function postInput({data , schema}) {
       newRegister.product_id = response.insertId;
     } else {
       newRegister.product_id = product[0].product_id;
-      const updatedQuantity = Number(product[0].quantity) + Number(data.quantity);
+      const updatedQuantity = parseFloat(product[0].quantity) + parseFloat(data.quantity);
       const sqlUpdate = `update products set quantity = ${updatedQuantity} where product_id = ${product[0].product_id}`;
       await executeMysql(sqlUpdate, schema);
     }
