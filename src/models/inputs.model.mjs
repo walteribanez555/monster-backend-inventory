@@ -2,7 +2,6 @@ import { DatabaseOperations, executeMysql } from "../utils/database.mjs";
 import { buildResponse, validateData, colorLog } from "../utils/helpers.mjs";
 
 const tableName = "inputs";
-const idField = "input_id";
 const keyField = "input_id";
 
 const queryParams = ["id", "init", "end", "product_id", "warehouse_id", "product_type_id"];
@@ -62,7 +61,8 @@ export async function postInput({data , schema}) {
       newRegister.product_id = response.insertId;
     } else {
       newRegister.product_id = product[0].product_id;
-      const sqlUpdate = `update products set quantity = ${product[0].quantity + data.quantity} where product_id = ${product[0].product_id}`;
+      const updatedQuantity = Number(product[0].quantity) + Number(data.quantity);
+      const sqlUpdate = `update products set quantity = ${updatedQuantity} where product_id = ${product[0].product_id}`;
       await executeMysql(sqlUpdate, schema);
     }
 
