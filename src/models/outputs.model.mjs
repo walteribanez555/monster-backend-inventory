@@ -105,6 +105,8 @@ export async function postOutput({ data, schema }) {
     // return buildResponse(500, err, "post");
     response = [{ status: 500, message: err }, undefined];
   }
+
+  return response;
 }
 
 export async function putOutput({ id, data, schema }) {
@@ -167,4 +169,6 @@ export async function deleteOutput({ id, schema }) {
     response = [{status:500, message : err}, undefined];
     // return buildResponse(500, err, "delete");
   }
+
+  return response;
 }
