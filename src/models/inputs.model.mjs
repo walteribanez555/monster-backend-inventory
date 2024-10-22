@@ -48,6 +48,8 @@ export async function getInput({ id, init, end, product_id , warehouse_id, limit
 }
 
 export async function postInput({data , schema}) {
+
+  let response;
   try { 
     const database = new DatabaseOperations(tableName, schema);
     const newRegister = validateData(data, model);
@@ -77,18 +79,20 @@ export async function postInput({data , schema}) {
     // Insert the input with the quantity
     newRegister.date_created = actualDate;
 
-    const response = await database.create(newRegister, keyField);
+    const queryReponse = await database.create(newRegister, keyField);
 
     data.date_created = actualDate;
     data.provider_id = newRegister.provider_id;
     data.product_id = newRegister.product_id;
 
-    return buildResponse(200, response, 'post', keyField, data);
+    return [undefined, {queryReponse, keyField, dataResponse: data}];
 
+    // return buildResponse(200, response, 'post', keyField, data);
 
 
   }catch( error) { 
     colorLog(` INPUTS SERVICES ERROR : ${JSON.stringify(error)}`, `red`, 'reset');
+    return [ error, undefined ];
   }
 }
 
