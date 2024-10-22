@@ -14,6 +14,8 @@ const model = {
 };
 
 export async function getInput({ id, init, end, product_id , warehouse_id, limit, offset , product_type_id , schema}) {
+  let response;
+  
   try{
     const database = new DatabaseOperations("InputProductDetails", schema);
     const data = {
@@ -29,12 +31,18 @@ export async function getInput({ id, init, end, product_id , warehouse_id, limit
       offset,
     };
     
-    const response = await database.read(data);
-    return buildResponse(200, response, 'get');
+    const queryResponse = await database.read(data);
+
+    response = [undefined, queryResponse]; 
+
+    return response;
   }catch( err ){
     colorLog(` GET INPUT ERROR : ${JSON.stringify(err)}`, 'red', 'reset');
-    return buildResponse( 500 , err , 'get');
+
+    response = [err, undefined];
   }
+
+  return response;
 
 
 }

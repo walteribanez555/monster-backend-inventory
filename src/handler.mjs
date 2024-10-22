@@ -7,6 +7,7 @@ import { deleteProducts, getProducts, postProducts, putProducts } from "./contro
 import { deleteProviders, getProviders, postProviders, putProviders } from "./controllers/providers.controller.mjs";
 import { deleteWarehouses, getWarehouses, postWarehouses, putWarehouses } from "./controllers/warehouses.controller.mjs";
 import { deleteProductTypes, getProductTypes, postProductTypes, putProducTypes } from "./controllers/products_type.controller.mjs";
+import { deletePreparations, getPreparations, postPreparations, putPreparations } from "./controllers/preparations.controller.mjs";
 
 
 export const handler = async (event) => {
@@ -63,7 +64,12 @@ export const handler = async (event) => {
             'put': putWarehouses,
             'delete' : deleteWarehouses,
         },
-        
+        // '/preparations' : {
+        //     'get': getPreparations,
+        //     'post': postPreparations,
+        //     'put' : putPreparations,
+        //     'delete': deletePreparations
+        // },
         'others' : buildResponse,
     }
 

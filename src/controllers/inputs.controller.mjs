@@ -4,9 +4,33 @@ import {
   postInput,
   putInput,
 } from "../models/inputs.model.mjs";
+import { buildResponse } from "../utils/helpers.mjs";
 
-export async function getInputs({ id, init, end, product_id, warehouse_id, limit, offset, product_type_id }) {
-  return getInput({ id, init, end, product_id,warehouse_id,limit, offset, product_type_id , schema: "monster" });
+export async function getInputs({
+  id,
+  init,
+  end,
+  product_id,
+  warehouse_id,
+  limit,
+  offset,
+  product_type_id,
+}) {
+  const [err, response] = await getInput({
+    id,
+    init,
+    end,
+    product_id,
+    warehouse_id,
+    limit,
+    offset,
+    product_type_id,
+    schema: "monster",
+  });
+
+  if (err) return buildResponse(500, err, "get");
+
+  return buildResponse(200, response, 'get');
 }
 
 export async function postInputs({ data }) {
