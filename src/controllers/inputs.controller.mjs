@@ -39,7 +39,7 @@ export async function postInputs({ data }) {
 
   if(err) return  buildResponse(500, err, "get");
 
-  console.log(queryResponse,keyField, dataResponse);
+  console.log({queryResponse,keyField, dataResponse});
 
 
   return buildResponse(200, queryResponse,'post', keyField, dataResponse );
