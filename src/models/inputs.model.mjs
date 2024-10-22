@@ -36,10 +36,10 @@ export async function getInput({ id, init, end, product_id , warehouse_id, limit
     response = [undefined, queryResponse]; 
 
     return response;
-  }catch( err ){
-    colorLog(` GET INPUT ERROR : ${JSON.stringify(err)}`, 'red', 'reset');
+  }catch( error ){
+    colorLog(` GET INPUT ERROR : ${JSON.stringify(error)}`, 'red', 'reset');
 
-    response = [err, undefined];
+    response = [{status : 500, message : ` GET INPUT ERROR : ${JSON.stringify(error)}`}, undefined];
   }
 
   return response;
@@ -95,7 +95,7 @@ try {
 
 } catch (error) {
   colorLog(`INPUTS SERVICES ERROR: ${JSON.stringify(error)}`, `red`, 'reset');
-  response = [error, undefined];
+  response = [{ status: 500 ,   message : `INPUTS SERVICES ERROR: ${JSON.stringify(error)}`}, undefined];
 }
 
 return response;
@@ -103,39 +103,63 @@ return response;
 }
 
 export async function putInput({id, data ,schema}) {
+  let response;
   try { 
     const database = new DatabaseOperations(tableName , schema);
     const update = validateData(data, model, 'put');
 
-    if(Object.keys( update ).length===0) 
-      return buildResponse(400, {message : 'Missing fields to update'}, 'put');
+    if(Object.keys( update ).length===0) {
+      response = [{status : 400, message : 'Missing Fields to Update'}, undefined];
+      return response;
+    }
+      // return buildResponse(400, {message : 'Missing fields to update'}, 'put');
+      
 
-    if(!id) 
-      return buildResponse(400, {message : 'Missing the record id to update'}, 'put');
+    if(!id) {
+      response = [{status : 400, message : 'Missing the record id to Update'}, undefined];
+      return response;
+    }
+    
+      // return buildResponse(400, {message : 'Missing the record id to update'}, 'put');
+
 
     const where = { 
       [keyField] : id
     }
 
-    const response = await database.update(update, where);
-    return buildResponse(200, response, 'put');
+    const queryResponse = await database.update(update, where);
+    // return buildResponse(200, response, 'put');
+    response = [undefined, queryResponse];
+    
 
   }catch ( error ) { 
     colorLog(`PUT INPUT ERROR : ${JSON.stringify( error )}`, 'red', 'reset');
-    return buildResponse(500 , error , 'put');
+    // return buildResponse(500 , error , 'put');
+    response = [{status : 500, message: `PUT INPUT ERROR : ${JSON.stringify( error )}`}, undefined];
   }
+  
+
+  return response;
 }
 
 export async function deleteInput({id ,schema}) {
+
+  let response;
   try { 
     const database = new DatabaseOperations( tableName , schema);
 
-    if(!id) 
-      return buildResponse(400, {message : ' Missing the record id to delete'}, 'delete');
+    if(!id) {
+      response = [{ status : 400, message : 'Missing the record id to delete'}, undefined];
+      return response;
+    }
+      // return buildResponse(400, {message : ' Missing the record id to delete'}, 'delete');
     await database.delete(id, keyField);
-    return buildResponse(200, {message : 'Record deleted'} , 'delete');
+    // return buildResponse(200, {message : 'Record deleted'} , 'delete');
+    response = [undefined, 'Record deleted'];
   }catch( error) {
     colorLog(` DELETE INPUT ERROR : ${ JSON.stringify( error ) }`, 'red', 'reset');
-    return buildResponse(500, error, 'delete');
+    // return buildResponse(500, error, 'delete');
+    response = [{status: 500, message : ` DELETE INPUT ERROR : ${ JSON.stringify( error ) }`}, undefined];
   }
+  return response;
 }
