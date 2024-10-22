@@ -85,15 +85,17 @@ export async function postInput({data , schema}) {
     data.provider_id = newRegister.provider_id;
     data.product_id = newRegister.product_id;
 
-    return [undefined, {queryReponse, keyField, dataResponse: data}];
+    response =  [undefined, {queryReponse, keyField, dataResponse: data}];
 
     // return buildResponse(200, response, 'post', keyField, data);
 
 
   }catch( error) { 
     colorLog(` INPUTS SERVICES ERROR : ${JSON.stringify(error)}`, `red`, 'reset');
-    return [ error, undefined ];
+    response = [ error, undefined ];
   }
+
+  return response;
 }
 
 export async function putInput({id, data ,schema}) {
