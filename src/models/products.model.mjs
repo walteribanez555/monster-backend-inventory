@@ -17,6 +17,7 @@ const model = {
 };
 
 export async function getProduct({ id,init, end, warehouse_id, limit, offset, schema }) {
+  let response;
   try {
     const database = new DatabaseOperations(tableName, schema);
     const data = {
@@ -30,79 +31,90 @@ export async function getProduct({ id,init, end, warehouse_id, limit, offset, sc
       offset
     };
 
-    const response = await database.read(data);
-    return buildResponse(200, response, "get");
+    const queryResponse = await database.read(data);
+    response = [undefined, queryResponse];
+    // return buildResponse(200, response, "get");
   } catch (err) {
     colorLog(`Get Producst error : ${JSON.stringify(err)}`, "red", "reset");
-    return buildResponse(500, err, "get");
+    response = [{status: 500, message : err}, undefined];
+    // return buildResponse(500, err, "get");
   }
+  return response;
 }
 
 export async function postProduct({ data, schema }) {
+  let response;
   try {
     const database = new DatabaseOperations(tableName, schema);
     const newRegister = validateData(data, model);
 
-    if (Object.keys(newRegister).length === 0)
-      return buildResponse(
-        400,
-        { message: "Missing required fields or not valid" },
-        "post"
-      );
+    if (Object.keys(newRegister).length === 0){
+      response = [{status: 400, message: 'Missing required fields or not valid'}, undefined];
+      return response;
+    }
+      
 
-    const response = await database.create(newRegister, keyField);
+    const queryResponse = await database.create(newRegister, keyField);
 
-    return buildResponse(200, response, "post", keyField, data);
+    // return buildResponse(200, response, "post", keyField, data);
+    response = [undefined, {queryResponse, keyField, data}];
   } catch (error) {
     colorLog(
       `Product service error : ${JSON.stringify(error)}`,
       "red",
       "reset"
     );
-    return buildResponse(500, error, "post");
+    response = [{status:500, message : error}, undefined];
+    // return buildResponse(500, error, "post");
   }
+  return response;
 }
 
 export async function putProduct({ id, data, schema }) {
+  let response;
   try {
     const database = new DatabaseOperations(tableName, schema);
     const update = validateData(data, model, "put");
-    if (Object.keys(update).length === 0)
-      return buildResponse(400, { message: "Missing Fields to update" }, "put");
+    if (Object.keys(update).length === 0){
+      response = [{status: 400, message: "Missing Fields to Update"}, undefined];
+      return response;
+    }
 
-    if (!id)
-      return buildResponse(
-        400,
-        { message: "Missing the record id to update" },
-        "put"
-      );
+    if (!id){
+      response = [{status:400, message : "Missing the record id to update"}, undefined];
+      return response;
+    }
+
 
     const where = {
       [keyField]: id,
     };
-    const response = await database.update(update, where);
-    return buildResponse(200, response, "put");
+    const queryResponse = await database.update(update, where);
+    response = [undefined, queryResponse, "put"];
+    // return buildResponse(200, response, "put");
   } catch (err) {
     colorLog(` PUT PRODUCT ERROR : ${JSON.stringify(err)}`, "red", "reset");
-    return buildResponse(500, err, "put");
+    // return buildResponse(500, err, "put");
+    response =[{status:500, message : err}, undefined];
   }
+  return response;
 }
 
 export async function deleteProduct({ id, schema }) {
+  let response;
   try {
     const database = new DatabaseOperations(tableName, schema);
 
-    if (!id)
-      return buildResponse(
-        400,
-        { message: "Missing the record id to delete" },
-        "delete"
-      );
+    if (!id){
+      response = [{status:400, message : "Missing the record id to delete"}, undefined];
+      return response;
+    }
 
     await database.delete(id, keyField);
-    return buildResponse(200, { message: "Record Deleted" }, "delete");
+    response = [undefined, "Record Deleted"];
   } catch (err) {
     colorLog(`Delete Product error : ${JSON.stringify(err)}`, "red", "reset");
-    return buildResponse(500, err, "delete");
+    response = [{status:500, message : err}, undefined];
   }
+  return response;
 }
