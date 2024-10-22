@@ -32,7 +32,7 @@ export async function getProduct({ id,init, end, warehouse_id, limit, offset, sc
     };
 
     const queryResponse = await database.read(data);
-    response = [undefined, {queryResponse ,data}];
+    response = [undefined, queryResponse];
     // return buildResponse(200, response, "get");
   } catch (err) {
     colorLog(`Get Producst error : ${JSON.stringify(err)}`, "red", "reset");
