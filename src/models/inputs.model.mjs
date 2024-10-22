@@ -67,8 +67,8 @@ export async function postInput({data , schema}) {
       // Create the product if it doesn't exist and the product_id is autoincremented set the product id as product_type_id, get the product_id and set to new Register 
       const sqlInsertProduct = `insert into products (product_id, warehouse_id, price, discount, quantity, date_created, product_type_id) values (null, ${data.warehouse_id}, 0, 0, ${data.quantity}, '${actualDate}', ${data.product_type_id})`;
 
-      const response = await executeMysql(sqlInsertProduct, schema);
-      newRegister.product_id = response.insertId;
+      const queryResponse = await executeMysql(sqlInsertProduct, schema);
+      newRegister.product_id = queryResponse.insertId;
     } else {
       newRegister.product_id = product[0].product_id;
       const updatedQuantity = parseFloat(product[0].quantity) + parseFloat(data.quantity);
