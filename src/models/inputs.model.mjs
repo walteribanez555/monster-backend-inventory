@@ -50,52 +50,56 @@ export async function getInput({ id, init, end, product_id , warehouse_id, limit
 export async function postInput({data , schema}) {
 
   let response;
-  try { 
-    const database = new DatabaseOperations(tableName, schema);
-    const newRegister = validateData(data, model);
+try {
+  const database = new DatabaseOperations(tableName, schema);
+  const newRegister = validateData(data, model);
 
-    // Check if the product exists in the products table and warehouse_id
-    const sql = `select * from products where product_type_id = ${data.product_type_id} and warehouse_id = ${data.warehouse_id}`;
-    const product = await executeMysql(sql, schema);
+  // Check if the product exists in the products table and warehouse_id
+  const sql = `select * from products where product_type_id = ${data.product_type_id} and warehouse_id = ${data.warehouse_id}`;
+  const product = await executeMysql(sql, schema);
 
-    // Get the actual date with hour and minutes format string to save on db
-    const actualDate = new Date().toISOString();
+  // Get the actual date with hour and minutes format string to save on db
+  const actualDate = new Date().toISOString();
 
-    
+  if (product.length === 0) {
+    // Create the product if it doesn't exist and set the product_id
+    const sqlInsertProduct = `insert into products (product_id, warehouse_id, price, discount, quantity, date_created, product_type_id)
+      values (null, ${data.warehouse_id}, 0, 0, ${data.quantity}, '${actualDate}', ${data.product_type_id})`;
 
-    if (product.length === 0) {
-      // Create the product if it doesn't exist and the product_id is autoincremented set the product id as product_type_id, get the product_id and set to new Register 
-      const sqlInsertProduct = `insert into products (product_id, warehouse_id, price, discount, quantity, date_created, product_type_id) values (null, ${data.warehouse_id}, 0, 0, ${data.quantity}, '${actualDate}', ${data.product_type_id})`;
+    const queryResponse = await executeMysql(sqlInsertProduct, schema);
+    console.log('Insert Query Response:', queryResponse);
 
-      const queryResponse = await executeMysql(sqlInsertProduct, schema);
+    // Check if insertId is available
+    if (queryResponse && queryResponse.insertId) {
       newRegister.product_id = queryResponse.insertId;
     } else {
-      newRegister.product_id = product[0].product_id;
-      const updatedQuantity = parseFloat(product[0].quantity) + parseFloat(data.quantity);
-      const sqlUpdate = `update products set quantity = ${updatedQuantity} where product_id = ${product[0].product_id}`;
-      await executeMysql(sqlUpdate, schema);
+      throw new Error('Product insertion failed, insertId not found.');
     }
-
-    // Insert the input with the quantity
-    newRegister.date_created = actualDate;
-
-    const queryReponse = await database.create(newRegister, keyField);
-
-    data.date_created = actualDate;
-    data.provider_id = newRegister.provider_id;
-    data.product_id = newRegister.product_id;
-
-    response =  [undefined, {queryReponse, keyField, dataResponse: data}];
-
-    // return buildResponse(200, response, 'post', keyField, data);
-
-
-  }catch( error) { 
-    colorLog(` INPUTS SERVICES ERROR : ${JSON.stringify(error)}`, `red`, 'reset');
-    response = [ error, undefined ];
+  } else {
+    newRegister.product_id = product[0].product_id;
+    const updatedQuantity = parseFloat(product[0].quantity) + parseFloat(data.quantity);
+    const sqlUpdate = `update products set quantity = ${updatedQuantity} where product_id = ${product[0].product_id}`;
+    await executeMysql(sqlUpdate, schema);
   }
 
-  return response;
+  // Insert the input with the quantity
+  newRegister.date_created = actualDate;
+
+  const queryResponseCreate = await database.create(newRegister, keyField);
+
+  data.date_created = actualDate;
+  data.provider_id = newRegister.provider_id;
+  data.product_id = newRegister.product_id;
+
+  response = [undefined, { queryResponseCreate, keyField, dataResponse: data }];
+
+} catch (error) {
+  colorLog(`INPUTS SERVICES ERROR: ${JSON.stringify(error)}`, `red`, 'reset');
+  response = [error, undefined];
+}
+
+return response;
+
 }
 
 export async function putInput({id, data ,schema}) {

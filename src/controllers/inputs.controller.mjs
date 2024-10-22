@@ -35,14 +35,14 @@ export async function getInputs({
 
 export async function postInputs({ data }) {
   // return postInput({ data, schema: "monster" });
-  const [ err, {queryResponse, keyField, dataResponse}  ] = await postInput({data , schema : "monster"});
+  const [ err, {queryResponseCreate, keyField, dataResponse}  ] = await postInput({data , schema : "monster"});
 
   if(err) return  buildResponse(500, err, "get");
 
-  console.log({log:"Demo Log" ,queryResponse,keyField, dataResponse});
+  console.log({log:"Demo Log" ,queryResponseCreate,keyField, dataResponse});
 
 
-  return buildResponse(200, queryResponse,'post', keyField, dataResponse );
+  return buildResponse(200, queryResponseCreate,'post', keyField, dataResponse );
 }
 
 export async function putInputs({ id, data }) {
