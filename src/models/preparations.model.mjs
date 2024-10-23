@@ -77,6 +77,12 @@ export async function postPreparation({ data, schema }) {
     const database = new DatabaseOperations(tableName,schema);
     const newRegister = validateData(data, model);
 
+    if( Object.keys( newRegister ).length === 0 ) {
+      response = [{status: 400, message: 'Missing required fields or not valid data'},undefined];
+      return response;
+    }
+
+
 
     const items = data.items;
 
@@ -86,20 +92,15 @@ export async function postPreparation({ data, schema }) {
 
 
     
-
-    if( Object.keys( newRegister ).length === 0 ) {
-      response = [{status: 400, message: 'Missing required fields or not valid data'},undefined];
-      return response;
-    }
-
+    console.log({warehouseProducts});
+    
 
 
 
     // const thereIsProducts = items.every( i => warehouseProducts.some( product => product.product_id == i.product_id) );
 
-    const products = items.map( i => i => warehouseProducts.find( product => product.product_id == i.product_id ));
+    const products = items.map(  i => warehouseProducts.find( product => product.product_id == i.product_id ));
 
-    console.log({products});
 
 
     if(!products.every(p => p)) {
