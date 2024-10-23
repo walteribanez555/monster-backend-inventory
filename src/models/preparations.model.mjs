@@ -116,7 +116,6 @@ export async function postPreparation({ data, schema }) {
     }
 
 
-    console.log("Pasa comprobaciones");
 
 
     const responseQuery = await database.create(newRegister, keyField);
@@ -147,6 +146,7 @@ export async function postPreparation({ data, schema }) {
         quantity: data.quantity,
         detail: `PROD-${responseQuery}`,
         warehouse_id: data.warehouse_id,
+        product_type_id : data.product_type_id,
        },
       schema
     });
