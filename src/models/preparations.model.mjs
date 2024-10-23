@@ -1,6 +1,7 @@
 import { DatabaseOperations, executeMysql } from "../utils/database.mjs";
 import { buildResponse, colorLog, validateData } from "../utils/helpers.mjs";
 import { postOutput } from './outputs.model.mjs';
+import { postInput } from './inputs.model.mjs'
 
 
 
@@ -41,7 +42,7 @@ export async function getPreparation({
 }) {
   let response;
 
-  const database = new DatabaseOperations("");
+  const database = new DatabaseOperations(tableName, schema);
 
   try {
     const data = {
@@ -122,6 +123,27 @@ export async function postPreparation({ data, schema }) {
       } 
     }); 
 
+
+
+    const [err, result] = await postInput({
+      data : {
+        provider_id: 5,
+        quantity: data.quantity,
+        detail: `PROD-${responseQuery}`,
+       },
+      schema
+    });
+
+
+
+    if(err){
+      response = [{status: err.status, message: err}, undefined];
+      return response;
+    }
+
+
+
+ 
    
     let response = [undefined, {responseQuery, dataResponse : data, keyField}];
 
