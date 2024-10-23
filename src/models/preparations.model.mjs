@@ -99,7 +99,7 @@ export async function postPreparation({ data, schema }) {
 
     // const thereIsProducts = items.every( i => warehouseProducts.some( product => product.product_id == i.product_id) );
 
-    const products = items.map(  i => warehouseProducts.find( product => product.product_id == i.product_id ));
+    const products = items.map(  i => warehouseProducts.find( product => product.product_type_id == i.product_type_id ));
 
 
     console.log({products});
