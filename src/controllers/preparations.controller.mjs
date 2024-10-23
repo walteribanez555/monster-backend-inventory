@@ -36,7 +36,7 @@ export async function postPreparations({ data }) {
   if (err) return buildResponse(err.status, err.message, "post");
 
 
-  // return buildResponse(200, queryResponse, )
+  return buildResponse(200, queryResponse, )
 
 
 }
