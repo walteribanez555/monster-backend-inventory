@@ -91,6 +91,8 @@ export async function postPreparation({ data, schema }) {
       return response;
     }
 
+    console.log(newRegister);
+
 
 
     // const thereIsProducts = items.every( i => warehouseProducts.some( product => product.product_id == i.product_id) );
@@ -125,6 +127,7 @@ export async function postPreparation({ data, schema }) {
        }, schema  });
 
       if(err) { 
+        console.log(err);
         throw err;
       } 
     }); 
