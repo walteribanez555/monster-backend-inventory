@@ -33,6 +33,8 @@ export async function postPreparations({ data }) {
     schema : "monster",
   });
 
+  console.log({err, others : {responseQuery, keyField, dataResponse}})
+
   if (err) return buildResponse(err.status, err.message, "post");
 
 
