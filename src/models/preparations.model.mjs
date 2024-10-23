@@ -102,6 +102,8 @@ export async function postPreparation({ data, schema }) {
     const products = items.map(  i => warehouseProducts.find( product => product.product_id == i.product_id ));
 
 
+    console.log({products});
+
 
     if(!products.every(p => p)) {
       response = [{status: 400, message: 'Products Not Found'}, undefined];
