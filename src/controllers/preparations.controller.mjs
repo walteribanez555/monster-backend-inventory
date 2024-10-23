@@ -28,7 +28,7 @@ export async function getPreparations({
 }
 
 export async function postPreparations({ data }) {
-  const [err, {queryResponse, keyField, dataResponse}] = await postPreparation({
+  const [err, {responseQuery, keyField, dataResponse}] = await postPreparation({
     data,
     schema : "monster",
   });
@@ -36,7 +36,7 @@ export async function postPreparations({ data }) {
   if (err) return buildResponse(err.status, err.message, "post");
 
 
-  return buildResponse(200, queryResponse, )
+  return buildResponse(200, responseQuery,"post", keyField, dataResponse );
 
 
 }

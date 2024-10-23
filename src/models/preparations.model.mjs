@@ -77,6 +77,9 @@ export async function postPreparation({ data, schema }) {
     const newRegister = validateData(data, model);
 
 
+    console.log({data});
+
+
     const items = data.items;
 
 
