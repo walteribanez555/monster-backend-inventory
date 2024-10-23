@@ -162,7 +162,7 @@ export async function postPreparation({ data, schema }) {
 
  
    
-    let response = [undefined, {responseQuery, dataResponse : data, keyField}];
+    response = [undefined, {responseQuery, dataResponse : data, keyField}];
 
   }catch( err) { 
 

@@ -35,10 +35,10 @@ export async function postPreparations({ data }) {
 
   console.log({err, others : {responseQuery, keyField, dataResponse}})
 
-  if (err) return buildResponse(err.status, err.message, "post");
+  if (err) return buildResponse(err.status, err, "post");
 
 
-  return buildResponse(200, responseQuery,"post", keyField, dataResponse );
+  return buildResponse(200, responseQuery,'post', keyField, dataResponse );
 
 
 }
