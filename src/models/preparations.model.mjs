@@ -78,10 +78,6 @@ export async function postPreparation({ data, schema }) {
     const newRegister = validateData(data, model);
 
 
-    console.log({data});
-    console.log({newRegister});
-
-
     const items = data.items;
 
 
@@ -89,7 +85,7 @@ export async function postPreparation({ data, schema }) {
     const warehouseProducts = await executeMysql(sql,schema);
 
 
-    console.log({warehouseProducts});
+    
 
     if( Object.keys( newRegister ).length === 0 ) {
       response = [{status: 400, message: 'Missing required fields or not valid data'},undefined];
@@ -102,6 +98,8 @@ export async function postPreparation({ data, schema }) {
     // const thereIsProducts = items.every( i => warehouseProducts.some( product => product.product_id == i.product_id) );
 
     const products = items.map( i => i => warehouseProducts.find( product => product.product_id == i.product_id ));
+
+    console.log({products});
 
 
     if(!products.every(p => p)) {
