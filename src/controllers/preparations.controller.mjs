@@ -1,4 +1,4 @@
-import { getPreparations, postPreparation } from '../models/preparations.model.mjs';
+import { getPreparation, postPreparation } from '../models/preparations.model.mjs';
 import { buildResponse } from '../utils/helpers.mjs';
 
 export async function getPreparations({
@@ -11,7 +11,7 @@ export async function getPreparations({
   offset,
 }) {
 
-  const [err, response] = await getPreparations({
+  const [err, response] = await getPreparation({
     id,
     init,
     end,
