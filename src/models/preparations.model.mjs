@@ -102,7 +102,6 @@ export async function postPreparation({ data, schema }) {
     const products = items.map(  i => warehouseProducts.find( product => product.product_type_id == i.product_type_id ));
 
 
-    console.log({products});
 
 
     if(!products.every(p => p)) {
@@ -117,6 +116,8 @@ export async function postPreparation({ data, schema }) {
     }
 
 
+    console.log("Pasa comprobaciones");
+
 
     const responseQuery = await database.create(newRegister, keyField);
 
@@ -128,7 +129,8 @@ export async function postPreparation({ data, schema }) {
       const [err, result] = await postOutput({ data : { 
         product_type_id : product.product_type_id,
         quantity : items[index].quantity,
-        detail : `PROD-${responseQuery}`
+        detail : `PROD-${responseQuery}`,
+        warehouse_id: data.warehouse_id,
        }, schema  });
 
       if(err) { 
@@ -144,6 +146,7 @@ export async function postPreparation({ data, schema }) {
         provider_id: 5,
         quantity: data.quantity,
         detail: `PROD-${responseQuery}`,
+        warehouse_id: data.warehouse_id,
        },
       schema
     });
