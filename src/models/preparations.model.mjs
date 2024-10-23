@@ -85,8 +85,11 @@ export async function postPreparation({ data, schema }) {
     const items = data.items;
 
 
-    const sql = `select * from products where product_type_id = ${data.product_type_id} and warehouse_id = ${data.warehouse_id}`;
+    const sql = `select * from products where warehouse_id = ${data.warehouse_id}`;
     const warehouseProducts = await executeMysql(sql,schema);
+
+
+    console.log({warehouseProducts});
 
     if( Object.keys( newRegister ).length === 0 ) {
       response = [{status: 400, message: 'Missing required fields or not valid data'},undefined];
