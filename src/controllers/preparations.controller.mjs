@@ -22,7 +22,7 @@ export async function getPreparations({
     schema: "monster",
   });
 
-  if(err) return buildResponse(err.status, err.message , "get");
+  if(err) return buildResponse(err.status, err , "get");
 
   return buildResponse(200,response, "get");
 }
