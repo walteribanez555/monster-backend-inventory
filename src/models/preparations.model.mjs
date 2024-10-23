@@ -113,6 +113,9 @@ export async function postPreparation({ data, schema }) {
 
     const responseQuery = await database.create(newRegister, keyField);
 
+    console.log({responseQuery});
+
+
     products.forEach( async (product, index) => {
 
       const [err, result] = await postOutput({ data : { 
