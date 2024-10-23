@@ -101,7 +101,7 @@ export async function postPreparation({ data, schema }) {
     }
 
 
-    if( !products.every((p, index)=> p.quantity >=  i[index].quantity)){
+    if( !products.every((p, index)=> p.quantity >=  items[index].quantity)){
       response = [{status: 400, message :'Not Enought Quantity on Warehouse'}, undefined];
       return response;
     }
