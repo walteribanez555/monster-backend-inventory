@@ -79,6 +79,7 @@ export async function postPreparation({ data, schema }) {
 
 
     console.log({data});
+    console.log({newRegister});
 
 
     const items = data.items;
