@@ -128,7 +128,7 @@ export async function postPreparation({ data, schema }) {
       const [err, result] = await postOutput({ data : { 
         product_type_id : product.product_type_id,
         quantity : items[index].quantity,
-        detail : `PROD-${responseQuery}`,
+        detail : `PROD-${responseQuery.insertId}`,
         warehouse_id: data.warehouse_id,
        }, schema  });
 
@@ -144,7 +144,7 @@ export async function postPreparation({ data, schema }) {
       data : {
         provider_id: 5,
         quantity: data.quantity,
-        detail: `PROD-${responseQuery}`,
+        detail: `PROD-${responseQuery.insertId}`,
         warehouse_id: data.warehouse_id,
         product_type_id : data.product_type_id,
        },
