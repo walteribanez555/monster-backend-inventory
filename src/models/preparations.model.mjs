@@ -22,10 +22,11 @@ const model = {
   // provider_id: "number",
   // quantity: "number",
   // detail: "string",
-  'product_id': 'number',
+  // 'product_id': 'number',
   'status' : 'number',
   'description' : 'number',
   'created_at' : 'string',
+  'product_type_id' : 'number',
   
 };
 
@@ -91,7 +92,6 @@ export async function postPreparation({ data, schema }) {
       return response;
     }
 
-    console.log(newRegister);
 
 
 
