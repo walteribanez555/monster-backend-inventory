@@ -27,6 +27,7 @@ const model = {
   'description' : 'number',
   'created_at' : 'string',
   'product_type_id' : 'number',
+  'warehouse_id' : 'number',
   
 };
 
@@ -120,7 +121,6 @@ export async function postPreparation({ data, schema }) {
 
     const responseQuery = await database.create(newRegister, keyField);
 
-    console.log({responseQuery});
 
 
     products.forEach( async (product, index) => {
