@@ -42,8 +42,6 @@ export async function getPreparation({
   product_type_id,
   type,
   schema,
-  limit,
-  offset,
 }) {
   let response;
 
