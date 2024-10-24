@@ -45,10 +45,9 @@ export async function getPreparation({
 }) {
   let response;
 
-  const database = new DatabaseOperations("view_preparations_details", {
-    ...schema,
-    type
-  });
+  console.log(type, "Tipo");
+
+  const database = new DatabaseOperations("view_preparations_details", schema);
 
   try {
     const data = {
