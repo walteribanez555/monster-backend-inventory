@@ -28,6 +28,7 @@ const model = {
   'created_at' : 'string',
   'product_type_id' : 'number',
   'warehouse_id' : 'number',
+  'quantity' : 'number',
   
 };
 
