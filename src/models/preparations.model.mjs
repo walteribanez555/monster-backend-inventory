@@ -12,9 +12,9 @@ const queryParams = [
   "id",
   "init",
   "end",
-  "product_id",
   "warehouse_id",
   "product_type_id",
+  "type",
 ];
 
 const model = {
@@ -36,24 +36,26 @@ export async function getPreparation({
   id,
   init,
   end,
-  product_id,
-  warehouse_id,
   limit,
   offset,
+  warehouse_id,
   product_type_id,
+  type,
   schema,
+  limit,
+  offset,
 }) {
   let response;
 
-  const database = new DatabaseOperations(tableName, schema);
+  const database = new DatabaseOperations("view_preparations_details", schema);
 
   try {
     const data = {
       where: {
         [keyField]: id,
-        [queryParams[3]]: product_id,
-        [queryParams[4]]: warehouse_id,
-        [queryParams[5]]: product_type_id,
+        [queryParams[3]]: warehouse_id,
+        [queryParams[4]]: product_type_id,
+        [queryParams[5]]: type,
       },
       init,
       end,
@@ -120,8 +122,12 @@ export async function postPreparation({ data, schema }) {
 
 
 
+
     const responseQuery = await database.create(newRegister, keyField);
 
+    const selectedProductType = warehouseProducts.find( p => p.product_type_id == data.product_type_id).product_type_id;
+
+    responseQuery.type = selectedProductType;
 
 
     products.forEach( async (product, index) => {
