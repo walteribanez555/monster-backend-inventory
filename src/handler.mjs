@@ -16,7 +16,7 @@ export const handler = async (event) => {
     const { method, path } = event?.requestContext?.http ? event.requestContext.http : {};
     // const authorization = event?.headers?.authorization ? event.headers.authorization : false;
     // const schema = event.headers.schema || 'assist_trip';
-    const { id, init, end, product_id, warehouse_id, limit, offset, product_type_id  } = typeof( event.queryStringParameters ) === 'object' && Object.keys( event.queryStringParameters ).length > 0 ? event.queryStringParameters : false;
+    const { id, init, end, product_id, warehouse_id, limit, offset, product_type_id, type  } = typeof( event.queryStringParameters ) === 'object' && Object.keys( event.queryStringParameters ).length > 0 ? event.queryStringParameters : false;
     const data = typeof( event.body ) === 'string' && Object.keys( parseJsonToObject( event.body ) ).length > 0 ? parseJsonToObject( event.body ) : {};
     console.log( 'DATA: ' , data );
     console.log( 'ID: ' , id );
@@ -85,7 +85,7 @@ export const handler = async (event) => {
     try {
 
         if ( endpoints.hasOwnProperty( path ) )
-            return await endpoints[ path ][ method.toLowerCase() ]( { id, init, end, product_id, warehouse_id,limit, offset, product_type_id, data} );
+            return await endpoints[ path ][ method.toLowerCase() ]( { id, init, end, product_id, warehouse_id,limit, offset, product_type_id, data, type} );
 
         return endpoints.others( 404, { message : '404 Not Found' }, 'other' );
 
