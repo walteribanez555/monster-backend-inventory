@@ -124,7 +124,6 @@ export async function postPreparation({ data, schema }) {
 
     const responseQuery = await database.create(newRegister, keyField);
 
-    responseQuery.type = selectedProductType;
     
 
 
@@ -167,7 +166,7 @@ export async function postPreparation({ data, schema }) {
 
  
    
-    response = [undefined, {responseQuery, dataResponse : data, keyField}];
+    response = [undefined, {responseQuery, dataResponse : {...data, type: selectedProductType}, keyField}];
 
   }catch( err) { 
 
