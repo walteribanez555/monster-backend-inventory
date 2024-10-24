@@ -121,11 +121,10 @@ export async function postPreparation({ data, schema }) {
 
 
     const selectedProductType = warehouseProducts.find( p => p.product_type_id == data.product_type_id).product_type_id;
-    console.log({selectedProductType});
 
     const responseQuery = await database.create(newRegister, keyField);
 
-
+    responseQuery.type = selectedProductType;
     
 
 
