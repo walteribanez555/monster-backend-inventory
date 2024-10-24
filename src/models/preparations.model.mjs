@@ -25,7 +25,7 @@ const model = {
   // 'product_id': 'number',
   'status' : 'number',
   'description' : 'number',
-  'created_at' : 'string',
+  'date_created' : 'string',
   'product_type_id' : 'number',
   'warehouse_id' : 'number',
   'quantity' : 'number',
