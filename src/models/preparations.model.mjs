@@ -124,6 +124,7 @@ export async function postPreparation({ data, schema }) {
 
 
     const selectedProductType = warehouseProducts.find( p => p.product_type_id == data.product_type_id);
+    console.log("Item",{selectedProductType})
 
     if(!selectedProductType){
       // const model = {
@@ -134,6 +135,8 @@ export async function postPreparation({ data, schema }) {
       //   date_created: "string",
       //   product_type_id: "number",
       // };
+
+
       const [err , result] = await postProduct({
         warehouse_id : data.warehouse_id,
         price : 0,

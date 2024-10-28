@@ -45,6 +45,7 @@ export async function getProduct({ id,init, end, warehouse_id, limit, offset, sc
 export async function postProduct({ data, schema }) {
   let response;
   try {
+    console.log("Post Product".data);
     const database = new DatabaseOperations(tableName, schema);
     const newRegister = validateData(data, model);
 
