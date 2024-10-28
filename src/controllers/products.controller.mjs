@@ -25,7 +25,7 @@ export async function getProducts({
     schema: "monster",
   });
 
-  if (err) return buildResponse(err.status, err.message, "get");
+  if (err) return buildResponse(err.status, err, "get");
 
   return buildResponse(200, response, "get");
 }
@@ -37,7 +37,7 @@ export async function postProducts({ data }) {
     schema: "monster",
   });
 
-  if (err) return buildResponse(err.status, err.message, "post");
+  if (err) return buildResponse(err.status, err, "post");
 
   return buildResponse(200, queryResponse, "post", keyField, dataResponse);
 }
@@ -46,7 +46,7 @@ export async function putProducts({ id, data }) {
   // return putProduct({ data, id, schema: "monster" });
   const [err, result] = await putProduct({ id, data, schema: "monster" });
 
-  if (err) return buildResponse(err.status, err.message, "put");
+  if (err) return buildResponse(err.status, err, "put");
   return buildResponse(200, result, "put");
 }
 
@@ -54,7 +54,7 @@ export async function deleteProducts({ id }) {
   // return deleteProduct({ id, schema: "monster" });
   const [ err, result ] = await deleteProduct({id, schema:'monster'});
 
-  if(err) return buildResponse(err.status, err.message, "delete");
+  if(err) return buildResponse(err.status, err, "delete");
 
   return buildResponse(200, result, 'delete');
 }
