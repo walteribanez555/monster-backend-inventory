@@ -127,16 +127,6 @@ export async function postPreparation({ data, schema }) {
     console.log("Item",{selectedProductType})
 
     if(!selectedProductType){
-      // const model = {
-      //   warehouse_id: "number",
-      //   price: "string",
-      //   discount: "number",
-      //   quantity : "number",
-      //   date_created: "string",
-      //   product_type_id: "number",
-      // };
-
-
       const [err , result] = await postProduct({
         warehouse_id : data.warehouse_id,
         price : 0,
@@ -147,6 +137,7 @@ export async function postPreparation({ data, schema }) {
       }, "monster");
 
       if(err){
+        console.log(err);
         throw err;
       }
     }
