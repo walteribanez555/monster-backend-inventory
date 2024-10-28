@@ -1,7 +1,8 @@
 import { DatabaseOperations, executeMysql } from "../utils/database.mjs";
-import { buildResponse, colorLog, validateData } from "../utils/helpers.mjs";
+import { buildResponse, colorLog, dateNow, validateData } from "../utils/helpers.mjs";
 import { postOutput } from './outputs.model.mjs';
 import { postInput } from './inputs.model.mjs'
+import { postProduct } from "./products.model.mjs";
 
 
 
@@ -122,7 +123,33 @@ export async function postPreparation({ data, schema }) {
 
 
 
-    const selectedProductType = warehouseProducts.find( p => p.product_type_id == data.product_type_id).product_type_id;
+    const selectedProductType = warehouseProducts.find( p => p.product_type_id == data.product_type_id);
+
+    if(!selectedProductType){
+      // const model = {
+      //   warehouse_id: "number",
+      //   price: "string",
+      //   discount: "number",
+      //   quantity : "number",
+      //   date_created: "string",
+      //   product_type_id: "number",
+      // };
+      const [err , result] = await postProduct({
+        warehouse_id : data.warehouse_id,
+        price : 0,
+        discount : 0,
+        quantity : 0,
+        date_created : dateNow(),
+        product_type_id  : data.product_type_id,
+      }, "monster");
+
+      if(err){
+        throw err;
+      }
+    }
+
+
+
 
     const responseQuery = await database.create(newRegister, keyField);
 
@@ -143,7 +170,6 @@ export async function postPreparation({ data, schema }) {
         throw err;
       } 
     }); 
-
 
 
     const [err, result] = await postInput({
@@ -168,7 +194,7 @@ export async function postPreparation({ data, schema }) {
 
  
    
-    response = [undefined, {responseQuery, dataResponse : {...data, type: selectedProductType}, keyField}];
+    response = [undefined, {responseQuery, dataResponse : {...data, type: data.product_type_id}, keyField}];
 
   }catch( err) { 
 
